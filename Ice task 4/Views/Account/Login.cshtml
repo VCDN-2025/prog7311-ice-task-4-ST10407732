@@ -1,0 +1,68 @@
+﻿@model Ice_task_4.Models.LoginViewModel
+
+@{
+    ViewData["Title"] = "Sign In";
+}
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm border-0 overflow-hidden">
+            <div class="card-header text-center" style="background-color: #d63384; color: white;">
+                <h2 class="mb-0"><i class="bi bi-lock"></i> Sign In to Your Account</h2>
+            </div>
+            <div class="card-body p-4" style="background-color: #f8e1f4;">
+                <p class="text-center text-muted mb-4">Access your reservations and manage your stay with us</p>
+
+                <form asp-action="Login">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Username" class="form-control" placeholder="Username" />
+                        <label asp-for="Username"><i class="bi bi-person"></i> Username</label>
+                        <span asp-validation-for="Username" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Password" class="form-control" placeholder="Password" />
+                        <label asp-for="Password"><i class="bi bi-key"></i> Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input" asp-for="RememberMe" />
+                        <label class="form-check-label" asp-for="RememberMe">
+                            Remember me on this device
+                        </label>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-lg" style="background-color: #a633d6; color: white;">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-center" style="background-color: #fce4ec;">
+                <p class="mb-0">
+                    Don't have an account?
+                    <a asp-action="Register" class="text-decoration-none" style="color: #d63384;">
+                        <i class="bi bi-person-plus"></i> Create Account
+                    </a>
+                </p>
+            </div>
+        </div>
+
+        <!-- Quick Login for Demo -->
+        <div class="mt-4 text-center">
+            <p class="text-muted small">
+                <i class="bi bi-info-circle"></i> Admin credentials: Username: <strong>admin</strong>, Password: <strong>admin123</strong>
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

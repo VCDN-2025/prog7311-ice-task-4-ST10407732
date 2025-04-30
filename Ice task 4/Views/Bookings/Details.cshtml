@@ -1,0 +1,53 @@
+﻿@model Ice_task_4.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<h1>Booking Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Room
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Room.RoomNumber (@Model.Room.RoomType)
+        </dd>
+        <dt class="col-sm-3">
+            Guest
+        </dt>
+        <dd class="col-sm-9">
+            @Model.Guest.FullName
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CheckInDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CheckInDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.CheckOutDate)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.CheckOutDate)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.TotalPrice)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IsCancelled)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IsCancelled)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.BookingId" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

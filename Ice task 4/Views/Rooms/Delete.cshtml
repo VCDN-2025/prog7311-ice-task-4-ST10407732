@@ -1,0 +1,44 @@
+﻿@model Ice_task_4.Models.Room
+
+@{
+    ViewData["Title"] = "Delete Room";
+}
+
+<h1>Delete Room</h1>
+
+<h3>Are you sure you want to delete this room?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RoomNumber)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RoomNumber)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RoomType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RoomType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.PricePerNight)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.PricePerNight)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IsAvailable)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IsAvailable)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="RoomId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+    </form>
+</div>

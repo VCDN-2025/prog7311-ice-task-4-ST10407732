@@ -1,0 +1,109 @@
+﻿@model IEnumerable<Ice_task_4.Models.Room>
+
+@{
+    ViewData["Title"] = "Available Accommodations";
+}
+
+<div class="container mb-5">
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>@TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-5 mb-3">Our Luxurious Accommodations</h1>
+            <p class="lead text-muted">Discover the perfect setting for your next stay</p>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="alert alert-info shadow-sm border-0 d-flex align-items-center" role="alert">
+                    <i class="bi bi-info-circle-fill fs-4 me-3"></i>
+                    <div>
+                        <h4 class="alert-heading">No Rooms Available</h4>
+                        <p class="mb-0">All of our accommodations are currently booked. Please check back later or contact our concierge service for assistance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var room in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card shadow-sm h-100 border-0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">Room @room.RoomNumber</h5>
+                            <span class="badge bg-light text-primary fw-bold">@room.RoomType</span>
+                        </div>
+                        <div class="card-body p-4 d-flex flex-column">
+                            <div class="mb-3">
+                                @if (room.RoomType == "Single")
+                                {
+                                    <i class="bi bi-person-fill fs-5 me-2 text-primary"></i>
+
+                                    <span>Single Occupancy</span>
+                                }
+                                else if (room.RoomType == "Double")
+                                {
+                                    <i class="bi bi-people-fill fs-5 me-2 text-primary"></i>
+
+                                    <span>Double Occupancy</span>
+                                }
+                                else if (room.RoomType == "Suite")
+                                {
+                                    <i class="bi bi-stars fs-5 me-2 text-primary"></i>
+
+                                    <span>Luxury Suite</span>
+                                }
+                            </div>
+
+                            <div class="room-details mb-3">
+                                <p class="card-text">
+                                    Experience exceptional comfort in our @room.RoomType accommodation, featuring premium amenities and elegant décor.
+                                </p>
+                            </div>
+
+                            <div class="mt-auto">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div class="fs-5 text-primary fw-bold">
+                                        $@room.PricePerNight <span class="fs-6 text-muted fw-normal">per night</span>
+                                    </div>
+                                    <div>
+                                        <i class="bi bi-wifi me-1" data-bs-toggle="tooltip" title="Free Wi-Fi"></i>
+                                        <i class="bi bi-tv me-1" data-bs-toggle="tooltip" title="Flat-screen TV"></i>
+                                        <i class="bi bi-cup-hot" data-bs-toggle="tooltip" title="Coffee Maker"></i>
+                                    </div>
+                                </div>
+                                <a asp-controller="Home" asp-action="BookNow" asp-route-id="@room.RoomId" class="btn btn-primary w-100">
+                                    <i class="bi bi-calendar-plus me-2"></i>Book Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Initialize tooltips
+        document.addEventListener('DOMContentLoaded', function() {
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl)
+            });
+        });
+    </script>
+}

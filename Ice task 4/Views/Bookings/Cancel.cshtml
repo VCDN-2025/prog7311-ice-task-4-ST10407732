@@ -1,0 +1,50 @@
+﻿@model Ice_task_4.Models.Booking
+
+@{
+    ViewData["Title"] = "Cancel Booking";
+}
+
+<div class="container mb-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-danger text-white py-3">
+            <h2 class="mb-0"><i class="bi bi-x-circle me-2"></i>Cancel Booking</h2>
+        </div>
+        <div class="card-body p-4">
+            <div class="alert alert-warning mb-4">
+                <h5><i class="bi bi-exclamation-triangle me-2"></i>Cancellation Warning</h5>
+                <p class="mb-0">
+                    Are you sure you want to cancel this booking? This action cannot be undone.
+                </p>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Booking Information</h5>
+                    <p><strong>Booking ID:</strong> #@Model.BookingId</p>
+                    <p><strong>Room:</strong> @Model.Room.RoomNumber (@Model.Room.RoomType)</p>
+                    <p><strong>Price:</strong> $@Model.TotalPrice.ToString("F2")</p>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Stay Details</h5>
+                    <p><strong>Check-in:</strong> @Model.CheckInDate.ToString("MMM dd, yyyy")</p>
+                    <p><strong>Check-out:</strong> @Model.CheckOutDate.ToString("MMM dd, yyyy")</p>
+                    <p><strong>Duration:</strong> @((Model.CheckOutDate - Model.CheckInDate).Days) nights</p>
+                </div>
+            </div>
+
+            <form asp-action="CancelConfirmed" method="post">
+                <input type="hidden" name="id" value="@Model.BookingId" />
+
+                <div class="d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left me-2"></i>Back to Reservations
+                    </a>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="bi bi-x-circle me-2"></i>Confirm Cancellation
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

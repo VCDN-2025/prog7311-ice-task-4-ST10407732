@@ -1,0 +1,174 @@
+﻿@model Ice_task_4.Models.BookingViewModel
+
+@{
+    ViewData["Title"] = "Book Room";
+}
+
+<div class="container">
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="AvailableRooms">Available Rooms</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Book Room</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 mb-4">
+                <div class="card-header bg-primary text-white py-3">
+                    <h2 class="mb-0"><i class="bi bi-calendar-plus me-2"></i>Complete Your Reservation</h2>
+                </div>
+                <div class="card-body p-4">
+                    <form asp-controller="Home" asp-action="BookNow" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <input type="hidden" asp-for="RoomId" />
+                        <input type="hidden" asp-for="RoomNumber" />
+                        <input type="hidden" asp-for="RoomType" />
+                        <input type="hidden" asp-for="PricePerNight" />
+                        <input type="hidden" asp-for="GuestEmail" />
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Room Number</label>
+                                    <input type="text" class="form-control" value="@Model.RoomNumber" readonly />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Room Type</label>
+                                    <input type="text" class="form-control" value="@Model.RoomType" readonly />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="CheckInDate" class="form-label fw-bold"></label>
+                                    <input asp-for="CheckInDate" class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="CheckInDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="CheckOutDate" class="form-label fw-bold"></label>
+                                    <input asp-for="CheckOutDate" class="form-control" min="@DateTime.Now.AddDays(1).ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="CheckOutDate" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label asp-for="PhoneNumber" class="form-label fw-bold">
+                                <i class="bi bi-telephone me-1"></i>Contact Phone
+                            </label>
+                            <input asp-for="PhoneNumber" class="form-control" placeholder="For reservation communications" />
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="alert alert-info mb-4">
+                            <div class="d-flex">
+                                <div class="me-3">
+                                    <i class="bi bi-info-circle-fill fs-4"></i>
+                                </div>
+                                <div>
+                                    <h5 class="alert-heading">Booking Information</h5>
+                                    <p class="mb-0">
+                                        You will be charged $@Model.PricePerNight per night. Your total will be calculated based on your length of stay.
+                                        Cancellations must be made 24 hours in advance of check-in.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-controller="Home" asp-action="AvailableRooms" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2"></i>Back to Rooms
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-check-circle me-2"></i>Confirm Reservation
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 bg-light">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">
+                        <i class="bi bi-info-circle me-2"></i>Reservation Summary
+                    </h4>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Room:</span>
+                            <span class="fw-bold">@Model.RoomNumber (@Model.RoomType)</span>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2">
+                            <span class="text-muted">Rate:</span>
+                            <span class="fw-bold">$@Model.PricePerNight per night</span>
+                        </div>
+                    </div>
+
+                    <div class="price-calculator p-3 bg-white rounded shadow-sm mb-3">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Price per night:</span>
+                            <span>$@Model.PricePerNight</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Number of nights:</span>
+                            <span id="nightsCount">2</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between fw-bold">
+                            <span>Estimated Total:</span>
+                            <span id="totalPrice">$@(Model.PricePerNight * 2)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Calculate total based on check-in and check-out dates
+        function updateDateCalculations() {
+            const checkInDate = new Date(document.getElementById('CheckInDate').value);
+            const checkOutDate = new Date(document.getElementById('CheckOutDate').value);
+
+            if (checkInDate && checkOutDate && checkOutDate > checkInDate) {
+                // Calculate days
+                const diffTime = Math.abs(checkOutDate - checkInDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                // Update nights count
+                document.getElementById('nightsCount').textContent = diffDays;
+
+                // Calculate and update total price
+                const pricePerNight = @Model.PricePerNight;
+                const totalPrice = pricePerNight * diffDays;
+                document.getElementById('totalPrice').textContent = '$' + totalPrice;
+            }
+        }
+
+        // Set up event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('CheckInDate').addEventListener('change', updateDateCalculations);
+            document.getElementById('CheckOutDate').addEventListener('change', updateDateCalculations);
+
+            // Run initial calculation
+            updateDateCalculations();
+        });
+    </script>
+}

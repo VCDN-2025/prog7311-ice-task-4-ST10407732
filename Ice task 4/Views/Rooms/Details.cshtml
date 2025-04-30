@@ -1,0 +1,41 @@
+﻿@model Ice_task_4.Models.Room
+
+@{
+    ViewData["Title"] = "Room Details";
+}
+
+<h1>Room Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RoomNumber)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RoomNumber)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.RoomType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.RoomType)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.PricePerNight)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.PricePerNight)
+        </dd>
+        <dt class="col-sm-3">
+            @Html.DisplayNameFor(model => model.IsAvailable)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.IsAvailable)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.RoomId" class="btn btn-warning">Edit</a> |
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

@@ -1,0 +1,122 @@
+﻿@model Ice_task_4.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Receipt";
+}
+
+<div class="container mb-5">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white py-3">
+            <h2 class="mb-0"><i class="bi bi-receipt me-2"></i>Booking Receipt</h2>
+        </div>
+        <div class="card-body p-4">
+            <div class="row mb-4">
+                <div class="col-12 text-center mb-4">
+                    <h1 class="text-primary">Luxury Haven Hotel</h1>
+                    <p class="text-muted">123 Elegance Boulevard, Luxuryville</p>
+                </div>
+
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Booking Information</h5>
+                    <p><strong>Booking ID:</strong> #@Model.BookingId</p>
+                    <p>
+                        <strong>Status:</strong>
+                        @if (Model.IsCancelled)
+                        {
+                            <span class="badge bg-danger">Cancelled</span>
+                        }
+                        else if (Model.CheckOutDate < DateTime.Now)
+                        {
+                            <span class="badge bg-secondary">Completed</span>
+                        }
+                        else if (Model.CheckInDate <= DateTime.Now && Model.CheckOutDate >= DateTime.Now)
+                        {
+                            <span class="badge bg-success">Active</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-primary">Upcoming</span>
+                        }
+                    </p>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <h5 class="fw-bold">Guest Information</h5>
+                    <p><strong>Name:</strong> @Model.Guest.FirstName @Model.Guest.LastName</p>
+                    <p><strong>Email:</strong> @Model.Guest.Email</p>
+                    @if (!string.IsNullOrEmpty(Model.Guest.PhoneNumber))
+                    {
+                        <p><strong>Phone:</strong> @Model.Guest.PhoneNumber</p>
+                    }
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h5 class="fw-bold">Room Details</h5>
+                    <p><strong>Room:</strong> @Model.Room.RoomNumber</p>
+                    <p><strong>Type:</strong> @Model.Room.RoomType</p>
+                    <p><strong>Rate:</strong> $@Model.Room.PricePerNight.ToString("F2") per night</p>
+                </div>
+
+                <div class="col-md-6 text-md-end">
+                    <h5 class="fw-bold">Stay Information</h5>
+                    <p><strong>Check-in:</strong> @Model.CheckInDate.ToString("dddd, MMMM d, yyyy")</p>
+                    <p><strong>Check-out:</strong> @Model.CheckOutDate.ToString("dddd, MMMM d, yyyy")</p>
+                    <p><strong>Duration:</strong> @((Model.CheckOutDate - Model.CheckInDate).Days) nights</p>
+                </div>
+            </div>
+
+            <div class="table-responsive mb-4">
+                <table class="table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Description</th>
+                            <th class="text-end">Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.Room.RoomType Room (@(Model.CheckOutDate - Model.CheckInDate).Days nights at $@Model.Room.PricePerNight.ToString("F2") per night)</td>
+                            <td class="text-end">$@Model.TotalPrice.ToString("F2")</td>
+                        </tr>
+                        <tr>
+                            <td>Taxes and fees (included)</td>
+                            <td class="text-end">$0.00</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr class="table-primary">
+                            <th>Total Amount</th>
+                            <th class="text-end">$@Model.TotalPrice.ToString("F2")</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <h5><i class="bi bi-info-circle me-2"></i>Booking Policies</h5>
+                        <p class="small mb-0">
+                            Cancellations must be made at least 24 hours before check-in. Check-in time is 3:00 PM and check-out time is 11:00 AM.
+                            For any questions or special requests, please contact our concierge service.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-light p-3">
+            <div class="d-flex justify-content-between">
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Back to Reservations
+                </a>
+                <button type="button" class="btn btn-primary" onclick="window.print()">
+                    <i class="bi bi-printer me-2"></i>Print Receipt
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

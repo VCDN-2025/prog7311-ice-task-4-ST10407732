@@ -1,0 +1,226 @@
+﻿@{
+    ViewData["Title"] = "Welcome";
+}
+
+<!-- Hero Section -->
+<div class="position-relative mb-5">
+    <div class="bg-image rounded shadow-sm" style="height: 400px; background: linear-gradient(rgba(186, 85, 211, 0.7), rgba(255, 105, 180, 0.7)), url('https://source.unsplash.com/AH8zKXqFITA/1600x900') no-repeat center; background-size: cover;">
+        <div class="container h-100 d-flex flex-column justify-content-center text-white">
+            <div class="px-md-5 py-5">
+                <h1 class="display-4 fw-bold mb-3">Welcome to Serenity Suites</h1>
+                <p class="lead mb-4">Unwind in style with sophisticated rooms, warm service, and indulgent comfort like never before.</p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div>
+                        <a class="btn btn-light btn-lg px-4 me-2" asp-controller="Account" asp-action="Register">
+                            <i class="bi bi-person-plus me-2"></i>Sign Up
+                        </a>
+                        <a class="btn btn-outline-light btn-lg px-4" asp-controller="Account" asp-action="Login">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Log In
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <a class="btn btn-light btn-lg px-4" asp-controller="Home" asp-action="AvailableRooms">
+                        <i class="bi bi-search me-2"></i>Explore Rooms
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content Section -->
+<div class="row mt-5">
+    @if (User.Identity.IsAuthenticated)
+    {
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="col-12 mb-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4 text-center">
+                        <h2 class="card-title mb-4">Admin Control Panel</h2>
+                        <p class="lead text-muted mb-4">Access and oversee all core operations of the property with ease.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-door-open icon-feature text-purple"></i>
+                        <h3>Room Setup</h3>
+                        <p class="text-muted mb-4">Manage room details and availability directly from this portal.</p>
+                        <a asp-controller="Rooms" asp-action="Index" class="btn btn-pink">
+                            <i class="bi bi-gear me-2"></i>Edit Rooms
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-people icon-feature text-purple"></i>
+                        <h3>Guest Profiles</h3>
+                        <p class="text-muted mb-4">Track visitor information and update guest data efficiently.</p>
+                        <a asp-controller="Guests" asp-action="Index" class="btn btn-pink">
+                            <i class="bi bi-person-gear me-2"></i>View Guests
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-calendar-check icon-feature text-purple"></i>
+                        <h3>Reservations</h3>
+                        <p class="text-muted mb-4">Supervise all current and upcoming bookings effortlessly.</p>
+                        <a asp-controller="Bookings" asp-action="Index" class="btn btn-pink">
+                            <i class="bi bi-journal-check me-2"></i>Manage Bookings
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-search icon-feature text-purple"></i>
+                        <h3>Search Rooms</h3>
+                        <p class="text-muted mb-4">Choose from elegant rooms tailored for leisure or business stays.</p>
+                        <a asp-controller="Home" asp-action="AvailableRooms" class="btn btn-pink">
+                            <i class="bi bi-building me-2"></i>View Options
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body p-4 text-center">
+                        <i class="bi bi-journal-check icon-feature text-purple"></i>
+                        <h3>My Bookings</h3>
+                        <p class="text-muted mb-4">Access and manage all your reservations in one place.</p>
+                        <a asp-controller="Bookings" asp-action="Index" class="btn btn-pink">
+                            <i class="bi bi-calendar-event me-2"></i>My Stays
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-12 mb-5">
+            <h2 class="text-center mb-5">Comfort Crafted for You</h2>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4 text-center">
+                    <i class="bi bi-stars icon-feature text-pink"></i>
+                    <h3>Stylish Stays</h3>
+                    <p class="text-muted">Discover rooms with flair and luxury that reflect modern elegance and tranquility.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4 text-center">
+                    <i class="bi bi-cup-hot icon-feature text-pink"></i>
+                    <h3>Delightful Dining</h3>
+                    <p class="text-muted">Enjoy thoughtfully crafted dishes from local and international cuisines.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm h-100 border-0">
+                <div class="card-body p-4 text-center">
+                    <i class="bi bi-water icon-feature text-pink"></i>
+                    <h3>Spa & Serenity</h3>
+                    <p class="text-muted">Recharge in our peaceful wellness center with signature treatments and therapies.</p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Testimonials/Info Section -->
+@if (!User.Identity.IsAuthenticated)
+{
+    <div class="row mt-5 pt-5 border-top">
+        <div class="col-12 mb-4">
+            <h2 class="text-center mb-5">Why Choose Serenity Suites</h2>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-shield-check text-pink fs-2 me-3"></i>
+                        <h4 class="mb-0">Secure & Safe</h4>
+                    </div>
+                    <p class="text-muted">We prioritize your wellbeing with 24/7 security, discreet staff, and advanced safety protocols.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-geo-alt text-pink fs-2 me-3"></i>
+                        <h4 class="mb-0">Perfectly Located</h4>
+                    </div>
+                    <p class="text-muted">Stay close to entertainment, shopping, and nightlife—right in the heart of the city.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-wifi text-pink fs-2 me-3"></i>
+                        <h4 class="mb-0">High-Speed WiFi</h4>
+                    </div>
+                    <p class="text-muted">Whether working remotely or streaming your favorite shows, we keep you connected everywhere.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <i class="bi bi-award text-pink fs-2 me-3"></i>
+                        <h4 class="mb-0">Unmatched Hospitality</h4>
+                    </div>
+                    <p class="text-muted">Our attentive staff ensures every guest receives personalized service from arrival to departure.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call to Action -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card text-center bg-pink text-white shadow p-5 rounded border-0">
+                <h2 class="mb-3">Start Your Escape Today</h2>
+                <p class="lead mb-4">Join Serenity Suites to unlock exclusive offers and early reservations.</p>
+                <div class="d-flex justify-content-center">
+                    <a asp-controller="Account" asp-action="Register" class="btn btn-light btn-lg">
+                        <i class="bi bi-person-plus me-2"></i>Create Account
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
